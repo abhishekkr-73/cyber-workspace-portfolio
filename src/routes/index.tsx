@@ -60,7 +60,7 @@ function Portfolio() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground selection:bg-primary/30">
       <div className="scene-fallback fixed inset-0 z-0" aria-hidden="true" />
-      {mounted && <Suspense fallback={null}><WorkspaceScene reducedMotion={reducedMotion} /></Suspense>}
+      {mounted && <Suspense fallback={null}><WorkspaceScene reducedMotion={reducedMotion} compact={window.innerWidth < 768} /></Suspense>}
       <header className="fixed left-1/2 top-4 z-50 w-[calc(100%-2rem)] max-w-5xl -translate-x-1/2">
         <nav aria-label="Primary navigation" className="glass flex h-14 items-center justify-between px-4 md:px-5">
           <a href="#home" className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-foreground"><span className="status-dot" />AKR / DEV</a>

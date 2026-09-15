@@ -4,10 +4,10 @@ import { useMemo, useRef } from "react";
 import type { Group } from "three";
 import * as THREE from "three";
 
-function Workstation({ reducedMotion }: { reducedMotion: boolean }) {
+function Workstation({ reducedMotion, compact }: { reducedMotion: boolean; compact: boolean }) {
   const rig = useRef<Group>(null);
   const screenMaterial = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#a779ff", emissive: "#5b21b6", emissiveIntensity: 1.2, metalness: 0.35, roughness: 0.25 }),
+    () => new THREE.MeshStandardMaterial({ color: "#6d41a8", emissive: "#35145f", emissiveIntensity: 0.7, metalness: 0.42, roughness: 0.3 }),
     [],
   );
   const metalMaterial = useMemo(
@@ -25,7 +25,7 @@ function Workstation({ reducedMotion }: { reducedMotion: boolean }) {
   });
 
   return (
-    <group ref={rig} position={[1.15, 0.05, 0]} rotation={[0, -0.2, 0]}>
+    <group ref={rig} position={compact ? [1.7, 1.45, -1.7] : [1.95, 0.05, -0.65]} scale={compact ? 0.52 : 0.78} rotation={[0, -0.2, 0]}>
       <RoundedBox args={[3.8, 2.25, 0.16]} radius={0.08} smoothness={4} position={[0, 0.35, 0]} material={metalMaterial} />
       <RoundedBox args={[3.52, 1.97, 0.05]} radius={0.05} smoothness={4} position={[0, 0.35, 0.11]} material={screenMaterial} />
       <mesh position={[0, -1.02, 0]} material={metalMaterial}><boxGeometry args={[0.22, 0.75, 0.18]} /></mesh>
@@ -54,16 +54,16 @@ function ScrollCamera({ reducedMotion }: { reducedMotion: boolean }) {
   return null;
 }
 
-export default function WorkspaceScene({ reducedMotion = false }: { reducedMotion?: boolean }) {
+export default function WorkspaceScene({ reducedMotion = false, compact = false }: { reducedMotion?: boolean; compact?: boolean }) {
   return (
     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
       <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 7.2], fov: 42 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
         <ambientLight intensity={0.28} />
         <directionalLight position={[4, 5, 4]} intensity={2.2} color="#f6f1ff" />
-        <pointLight position={[1, 0, 2.8]} intensity={18} distance={9} color="#8b5cf6" />
+        <pointLight position={[1, 0, 2.8]} intensity={compact ? 7 : 11} distance={9} color="#8b5cf6" />
         <pointLight position={[-4, -2, 1]} intensity={7} distance={8} color="#c6d9ff" />
-        <Workstation reducedMotion={reducedMotion} />
-        <Sparkles count={reducedMotion ? 18 : 52} scale={[9, 6, 4]} size={1.4} speed={reducedMotion ? 0 : 0.16} opacity={0.38} color="#c9b4f4" />
+        <Workstation reducedMotion={reducedMotion} compact={compact} />
+        <Sparkles count={reducedMotion ? 18 : compact ? 24 : 52} scale={[9, 6, 4]} size={1.4} speed={reducedMotion ? 0 : 0.16} opacity={0.32} color="#c9b4f4" />
         <ScrollCamera reducedMotion={reducedMotion} />
       </Canvas>
     </div>
