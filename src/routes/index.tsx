@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useMemo, useState, type FormEvent } from "react";
-import { ArrowDown, ArrowRight, Braces, Check, ChevronDown, Code2, ExternalLink, Github, Instagram, Linkedin, Mail, Menu, Network, Orbit, Send, Sparkles, X } from "lucide-react";
+import { ArrowDown, ArrowRight, Braces, Check, ChevronDown, Code2, ExternalLink, Github, Instagram, Linkedin, Mail, Menu, Network, Orbit, Send, X, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,6 +30,12 @@ const principles = [
   ["03", "Experiment", "Explore technology by testing ideas in practice."],
   ["04", "Improve", "Continuously develop technical skill and judgment."],
 ];
+const contactChannels: Array<{ icon: LucideIcon; label: string }> = [
+  { icon: Mail, label: "Email" },
+  { icon: Github, label: "GitHub" },
+  { icon: Linkedin, label: "LinkedIn" },
+  { icon: Instagram, label: "Instagram" },
+];
 
 function Portfolio() {
   const [mounted, setMounted] = useState(false);
@@ -44,7 +50,7 @@ function Portfolio() {
     const sections = nav.map((item) => document.getElementById(item.toLowerCase())).filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible?.target.id) setActive(visible.target.id[0].toUpperCase() + visible.target.id.slice(1));
+      if (visible?.target.id) setActive(visible.target.id.charAt(0).toUpperCase() + visible.target.id.slice(1));
     }, { threshold: [0.25, 0.55], rootMargin: "-20% 0px -35%" });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
@@ -143,7 +149,7 @@ function Portfolio() {
               <Network className="h-10 w-10 text-primary" />
               <h3 className="mt-7 text-xl font-semibold">Contact channels</h3>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">Details can be connected as soon as they’re available.</p>
-              <div className="mt-8 grid gap-2">{[[Mail,"Email"],[Github,"GitHub"],[Linkedin,"LinkedIn"],[Instagram,"Instagram"]].map(([Icon,label]) => <div className="contact-row" key={label as string}><Icon className="h-4 w-4" /><span>{label as string}</span><em>Link pending</em></div>)}</div>
+              <div className="mt-8 grid gap-2">{contactChannels.map(({ icon: Icon, label }) => <div className="contact-row" key={label}><Icon className="h-4 w-4" /><span>{label}</span><em>Link pending</em></div>)}</div>
             </div>
             <form onSubmit={submit} className="glass content-panel" noValidate>
               <div className="grid gap-5 sm:grid-cols-2"><Field label="Name"><Input name="name" required minLength={2} placeholder="Your name" /></Field><Field label="Email"><Input name="email" type="email" required placeholder="you@example.com" /></Field></div>
