@@ -34,6 +34,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Show build output
+        run: |
+          echo "=== Project root ==="
+          ls -la
+          echo "=== .output ==="
+          ls -la .output || true
+          echo "=== dist ==="
+          ls -la dist || true
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
