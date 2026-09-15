@@ -36,12 +36,10 @@ jobs:
 
       - name: Show build output
         run: |
-          echo "=== Project root ==="
-          ls -la
           echo "=== .output ==="
-          ls -la .output || true
-          echo "=== dist ==="
-          ls -la dist || true
+          find .output -maxdepth 3 -type f | sort
+          echo "=== .output/public ==="
+          ls -la .output/public || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
